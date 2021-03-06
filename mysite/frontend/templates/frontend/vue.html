@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Testowa strona Vue{% endblock title %}
+
+{% block content %}
+
+    <div class="container" id="app">
+        <ul>
+            <li>
+                <button v-on:click="loadData1">load...</button>
+            </li>
+        </ul>
+
+        <div>
+            {{ results }}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script language="JavaScript">
+    const url = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
+
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            results: [],
+            polls: []
+        },
+        methods: {
+            loadData1: function (){
+                {#fetch('http://example.com/movies.json')#}
+                {#    .then(response => response.json())#}
+                {#    .then(data => console.log(data));#}
+                fetch('http://example.com/movies.json')
+                    .then(response => response.json())
+                    .then(result => {
+                      console.log('Success:', result);
+                    })
+                    .catch(error => {
+                      data.results
+                        console.error('Error:', error);
+                    });
+            },
+
+
+
+            loadPolls2: function () {
+                console.log('load...')
+                let url = "http://127.0.0.1:8000/api/v1/question/"
+                fetch(url, {
+                    "method": "GET",
+                    "headers": {}
+                })
+                .then(response => {
+                    if(response.ok){
+                        return response.json()
+                    } else{
+                        alert("Server returned " + response.status + " : " + response.statusText);
+                    }
+                })
+                .then(response => {
+                    console.log(response)
+                    this.result = response.body;
+                    this.responseAvailable = true;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+            },
+
+
+
+        },
+        mounted() {
+            axios.get(url).then(response => {
+                this.results = response.data
+                console.log(response.data)
+            })
+        }
+    });
+</script>
+{% endblock script %}
